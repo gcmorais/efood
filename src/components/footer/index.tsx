@@ -5,24 +5,21 @@ function Footer() {
   return (
     <Container>
       <div>
-        <img src="../../../public/logo.svg" alt="efood-logo" />
+        <img src="/logo.svg" alt="efood-logo" />
         <ul>
           <li>
             <a href="#">
-              <img src="../../../public/insta.svg" alt="insta-logo" />
+              <img src="/insta.svg" alt="insta-logo" />
             </a>
           </li>
           <li>
             <a href="#">
-              <img
-                src="../../../public/facebook-round-svgrepo-com 1.svg"
-                alt="face-logo"
-              />
+              <img src="/facebook-round-svgrepo-com 1.svg" alt="face-logo" />
             </a>
           </li>
           <li>
             <a href="#">
-              <img src="../../../public/Group.svg" alt="x-logo" />
+              <img src="/Group.svg" alt="x-logo" />
             </a>
           </li>
         </ul>

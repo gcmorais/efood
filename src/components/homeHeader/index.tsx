@@ -3,7 +3,7 @@ import { Container } from "./styles";
 function HomeHeader() {
   return (
     <Container>
-      <img src="../../../public/logo.svg" alt="efood-logo"></img>
+      <img src="/logo.svg" alt="efood-logo"></img>
       <h1>
         Viva experiências gastronômicas <br />
         no conforto da sua casa

@@ -34,7 +34,7 @@ function Cards(props: CardsProps) {
           <h3>{props.title}</h3>
           <span>
             {props.note}
-            <img src="../../../public/estrela.svg" alt="star" />
+            <img src="/estrela.svg" alt="star" />
           </span>
         </Title>
         <p>{props.text}</p>

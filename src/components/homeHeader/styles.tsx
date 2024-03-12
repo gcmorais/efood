@@ -8,7 +8,7 @@ export const Container = styled.div`
   align-items: center;
   padding: 46px 0 40px;
   height: 384px;
-  background-image: url("../../../public/Vector.svg");
+  background-image: url("/Vector.svg");
 
   img {
     width: 125px;
