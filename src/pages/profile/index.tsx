@@ -25,8 +25,6 @@ function Profile() {
       });
   }, [id]);
 
-  console.log(food);
-
   return (
     <>
       <ProfileHeader />
