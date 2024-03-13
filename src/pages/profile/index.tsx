@@ -26,8 +26,6 @@ function Profile() {
       });
   }, [id]);
 
-  console.log(food.cardapio);
-
   return (
     <>
       <ProfileHeader />
@@ -44,6 +42,7 @@ function Profile() {
           {food.cardapio?.map((item) => {
             return (
               <Cardapio
+                key={item.id}
                 id={item.id}
                 image={item.foto}
                 text={item.descricao}

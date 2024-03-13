@@ -13,7 +13,7 @@ type ModalProps = {
   title: String;
   text: String;
   porcao: String;
-  preco: Number;
+  preco: number;
   isOpen: Boolean;
   setOpenModal: any;
 };
