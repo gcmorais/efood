@@ -8,6 +8,14 @@ export const Main = styled.main`
   margin-bottom: 120px;
   gap: 48px;
   margin-top: 80px;
+
+  @media (max-width: 1040px) {
+    grid-template-columns: auto auto;
+  }
+
+  @media (max-width: 710px) {
+    grid-template-columns: auto;
+  }
 `;
 
 export const ContainerBanner = styled.div`
