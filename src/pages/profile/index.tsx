@@ -5,10 +5,12 @@ import { ContainerBanner, Main } from "./styles";
 import Footer from "../../components/footer";
 import { Food } from "../home";
 import Cardapio from "../../components/cardapio";
+import Modal from "../../components/modal";
 
 function Profile() {
   const [food, setFood] = useState<Food[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
 
   const { id } = useParams();
 
@@ -40,10 +42,14 @@ function Profile() {
           {food.cardapio?.map((item) => {
             return (
               <Cardapio
+                key={item.id}
                 id={item.id}
                 image={item.foto}
                 text={item.descricao}
                 title={item.nome}
+                porcao={item.porcao}
+                preco={item.preco}
+                setOpenModal={() => setOpenModal(true)}
               />
             );
           })}

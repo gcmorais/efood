@@ -50,7 +50,7 @@ export const Title = styled.div`
   }
 `;
 
-export const ButtonLink = styled(Link)`
+export const ButtonLink = styled.button`
   height: 24px;
   display: flex;
   align-items: center;
@@ -61,4 +61,6 @@ export const ButtonLink = styled(Link)`
   background-color: ${Colors.paleOrange};
   color: ${Colors.red};
   margin: 10px 7px;
+  border: none;
+  cursor: pointer;
 `;

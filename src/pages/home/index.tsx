@@ -48,6 +48,7 @@ function Home() {
         {food.map((item) => {
           return (
             <Cards
+              key={item.id}
               id={item.id}
               btnText="Saiba mais"
               note={item.avaliacao}

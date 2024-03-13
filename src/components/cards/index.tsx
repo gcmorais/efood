@@ -1,24 +1,24 @@
 import { Card, Container, Header, Main, Title, ButtonLink } from "./styles";
 
 type CardsProps = {
-  id: Number;
+  id: number;
   image: any;
   title: String;
   text: String;
   tag: Array<String>;
-  note: Number;
+  note: number;
   btnText: String;
 };
 
 function Cards(props: CardsProps) {
-  const tagText = props.tag;
+  const propValues = [props];
 
   return (
     <Container>
       <Header>
         <Card>
-          {tagText.map((item) => {
-            return <p>{item}</p>;
+          {propValues.map((item) => {
+            return <p key={item.id}>{item.tag}</p>;
           })}
         </Card>
         <img src={props.image} alt="image-card" />
