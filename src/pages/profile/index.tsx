@@ -3,14 +3,13 @@ import ProfileHeader from "../../components/profileHeader";
 import { useParams } from "react-router-dom";
 import { ContainerBanner, Main } from "./styles";
 import Footer from "../../components/footer";
-import { Food } from "../home";
 import Cardapio from "../../components/cardapio";
-import Modal from "../../components/modal";
+import { Food } from "../home";
 
 function Profile() {
   const [food, setFood] = useState<Food[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [openModal, setOpenModal] = useState(false);
+  const [, setOpenModal] = useState(false);
 
   const { id } = useParams();
 
@@ -26,6 +25,8 @@ function Profile() {
       });
   }, [id]);
 
+  console.log(food);
+
   return (
     <>
       <ProfileHeader />
@@ -39,7 +40,7 @@ function Profile() {
           </div>
         </ContainerBanner>
         <Main>
-          {food.cardapio?.map((item) => {
+          {food.cardapio?.map((item: any) => {
             return (
               <Cardapio
                 key={item.id}

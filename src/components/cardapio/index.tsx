@@ -3,12 +3,12 @@ import { Container, Header, Main, Title, ButtonLink } from "./styles";
 import Modal from "../modal";
 
 type CardapioProps = {
-  id: Number;
+  id: number;
   image: any;
   title: String;
   text: String;
   porcao: String;
-  preco: Number;
+  preco: number;
   setOpenModal: any;
 };
 

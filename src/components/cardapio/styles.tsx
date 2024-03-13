@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Colors } from "../../styles";
-import { Link } from "react-router-dom";
 
 export const Container = styled.div`
   width: 320px;
