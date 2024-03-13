@@ -1,23 +1,17 @@
-import { useNavigate } from "react-router-dom";
-import { Card, Container, Header, Main, Title } from "./styles";
+import { Card, Container, Header, Main, Title, ButtonLink } from "./styles";
 
 type CardsProps = {
+  id: Number;
   image: any;
   title: String;
   text: String;
   tag: Array<String>;
-  note: String;
+  note: Number;
   btnText: String;
 };
 
 function Cards(props: CardsProps) {
-  const navigate = useNavigate();
-
   const tagText = props.tag;
-
-  function redirect() {
-    navigate("/profile");
-  }
 
   return (
     <Container>
@@ -33,14 +27,12 @@ function Cards(props: CardsProps) {
         <Title>
           <h3>{props.title}</h3>
           <span>
-            {props.note}
+            <p>{props.note}</p>
             <img src="/estrela.svg" alt="star" />
           </span>
         </Title>
         <p>{props.text}</p>
-        <button type="button" onClick={redirect}>
-          {props.btnText}
-        </button>
+        <ButtonLink to={`/profile/${props.id}`}>{props.btnText}</ButtonLink>
       </Main>
     </Container>
   );
