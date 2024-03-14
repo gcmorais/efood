@@ -7,9 +7,8 @@ import Cardapio from "../../components/cardapio";
 import { Food } from "../home";
 
 function Profile() {
-  const [food, setFood] = useState<Food[]>([]);
+  const [food, setFood] = useState<Food>();
   const [isLoading, setIsLoading] = useState(true);
-  const [, setOpenModal] = useState(false);
 
   const { id } = useParams();
 
@@ -31,14 +30,14 @@ function Profile() {
       <>
         {isLoading && <p>Carregando...</p>}
         <ContainerBanner>
-          <img src={food.capa} alt="capa" />
+          <img src={food?.capa} alt="capa" />
           <div>
-            <p>{food.tipo}</p>
-            <p>{food.titulo}</p>
+            <p>{food?.tipo}</p>
+            <p>{food?.titulo}</p>
           </div>
         </ContainerBanner>
         <Main>
-          {food.cardapio?.map((item: any) => {
+          {food?.cardapio?.map((item: any) => {
             return (
               <Cardapio
                 key={item.id}
@@ -48,7 +47,6 @@ function Profile() {
                 title={item.nome}
                 porcao={item.porcao}
                 preco={item.preco}
-                setOpenModal={() => setOpenModal(true)}
               />
             );
           })}
