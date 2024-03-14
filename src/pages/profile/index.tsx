@@ -5,30 +5,16 @@ import { ContainerBanner, Main } from "./styles";
 import Footer from "../../components/footer";
 import Cardapio from "../../components/cardapio";
 import { Food } from "../home";
+import { useGetDishesQuery } from "../../services/api";
 
 function Profile() {
-  const [food, setFood] = useState<Food>();
-  const [isLoading, setIsLoading] = useState(true);
-
   const { id } = useParams();
-
-  useEffect(() => {
-    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
-      .then((res) => res.json())
-      .then((res) => setFood(res))
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [id]);
+  const { data: food } = useGetDishesQuery(id!);
 
   return (
     <>
       <ProfileHeader />
       <>
-        {isLoading && <p>Carregando...</p>}
         <ContainerBanner>
           <img src={food?.capa} alt="capa" />
           <div>

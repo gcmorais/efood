@@ -21,7 +21,7 @@ function Modal(props: ModalProps) {
   if (props.isOpen) {
     return (
       <>
-        <Container>
+        <Container className={isOpen ? "is-open" : ""}>
           <ModalContainer>
             <Close>
               <button type="button" onClick={props.setOpenModal}>

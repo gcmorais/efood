@@ -7,7 +7,6 @@ type CardsProps = {
   text: String;
   tag: Array<String>;
   note: number;
-  btnText: String;
 };
 
 function Cards(props: CardsProps) {
@@ -32,7 +31,7 @@ function Cards(props: CardsProps) {
           </span>
         </Title>
         <p>{props.text}</p>
-        <ButtonLink to={`/profile/${props.id}`}>{props.btnText}</ButtonLink>
+        <ButtonLink to={`/profile/${props.id}`}>Saiba mais</ButtonLink>
       </Main>
     </Container>
   );
