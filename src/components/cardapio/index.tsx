@@ -1,32 +1,39 @@
 import { Container, Header, Main, Title, ButtonLink } from "./styles";
+import Modal from "../modal";
+import { useState } from "react";
+import { Cardapio } from "../../pages/home";
 
-type CardapioProps = {
-  id: number;
-  image: any;
-  title: String;
-  text: String;
-  porcao: String;
-  preco: number;
+type Props = {
+  food: Cardapio;
 };
 
-function Cardapio(props: CardapioProps) {
+function CardapioPage({ food }: Props) {
+  const [openModalCardapio, setOpenModalCardapio] = useState(false);
+
   return (
     <>
       <Container>
-        <p>{props.id}</p>
+        <p>{food.id}</p>
         <Header>
-          <img src={props.image} alt="image-card" />
+          <img src={food.foto} alt="image-card" />
         </Header>
         <Main>
           <Title>
-            <h3>{props.title}</h3>
+            <h3>{food.nome}</h3>
           </Title>
-          <p>{props.text}</p>
-          <ButtonLink>Adicionar ao carrinho</ButtonLink>
+          <p>{food.descricao}</p>
+          <ButtonLink onClick={() => setOpenModalCardapio(true)}>
+            Adicionar ao carrinho
+          </ButtonLink>
         </Main>
       </Container>
+      <Modal
+        isOpen={openModalCardapio}
+        setOpenModal={() => setOpenModalCardapio(false)}
+        food={food}
+      />
     </>
   );
 }
 
-export default Cardapio;
+export default CardapioPage;

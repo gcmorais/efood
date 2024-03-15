@@ -34,7 +34,7 @@ export const ContainerBanner = styled.div`
     display: flex;
     justify-content: space-around;
     flex-flow: column;
-    left: 235px;
+    left: 13%;
     height: 100%;
 
     p {
