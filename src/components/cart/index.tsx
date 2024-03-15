@@ -8,6 +8,8 @@ import {
   TextArea,
   Footer,
 } from "./styles";
+import { PiTrashLight } from "react-icons/pi";
+
 import { RootReducer } from "../../store";
 import { close, remove } from "../../store/reducers/cart";
 
@@ -55,7 +57,7 @@ function CartMenu() {
                   <h2>{item.nome}</h2>
                   <p>R$ {item.preco}</p>
                   <button onClick={() => handleRemove(item.id)}>
-                    <img src="/public/lixeira.png" alt="lixo-icon" />
+                    <PiTrashLight style={{ color: "#E66767" }} />
                   </button>
                 </TextArea>
               </ContentArea>
