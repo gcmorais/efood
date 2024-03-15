@@ -55,7 +55,7 @@ function CartMenu() {
                   <h2>{item.nome}</h2>
                   <p>R$ {item.preco}</p>
                   <button onClick={() => handleRemove(item.id)}>
-                    <img src="/public/lixeira.svg" alt="lixo-icon" />
+                    <img src="/public/lixeira.png" alt="lixo-icon" />
                   </button>
                 </TextArea>
               </ContentArea>
