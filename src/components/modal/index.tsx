@@ -1,3 +1,4 @@
+import { useDispatch } from "react-redux";
 import {
   Close,
   Container,
@@ -6,41 +7,51 @@ import {
   ModalContainer,
   TextArea,
 } from "./styles";
+import { open, add } from "../../store/reducers/cart";
+import CartMenu from "../cart";
+import { Cardapio } from "../../pages/home";
 
-type ModalProps = {
-  image: any;
-  title: String;
-  text: String;
-  porcao: String;
-  preco: number;
-  isOpen: Boolean;
+type Props = {
+  food: Cardapio;
+  isOpen: any;
   setOpenModal: any;
 };
 
-function Modal(props: ModalProps) {
-  if (props.isOpen) {
+function Modal({ food, isOpen, setOpenModal }: Props) {
+  const dispatch = useDispatch();
+
+  const openModal = () => {
+    dispatch(open());
+    dispatch(add(food));
+    setOpenModal();
+  };
+
+  if (isOpen) {
     return (
       <>
-        <Container className={isOpen ? "is-open" : ""}>
+        <Container>
           <ModalContainer>
             <Close>
-              <button type="button" onClick={props.setOpenModal}>
+              <button type="button" onClick={setOpenModal}>
                 <img src="/close.svg" alt="close-icon" />
               </button>
             </Close>
             <ContentArea>
               <ImageArea>
-                <img src={props.image} alt="food-img" />
+                <img src={food.foto} alt="food-img" />
               </ImageArea>
               <TextArea>
-                <h2>{props.title}</h2>
-                <p>{props.text}</p>
-                <p>{props.porcao}</p>
-                <button>Adicionar ao carrinho - R$ {props.preco}</button>
+                <h2>{food.nome}</h2>
+                <p>{food.descricao}</p>
+                <p>{food.porcao}</p>
+                <button onClick={openModal}>
+                  Adicionar ao carrinho - R$ {food.preco}
+                </button>
               </TextArea>
             </ContentArea>
           </ModalContainer>
         </Container>
+        <CartMenu />
       </>
     );
   }

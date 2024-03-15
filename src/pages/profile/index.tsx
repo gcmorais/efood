@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
 import ProfileHeader from "../../components/profileHeader";
 import { useParams } from "react-router-dom";
 import { ContainerBanner, Main } from "./styles";
 import Footer from "../../components/footer";
 import Cardapio from "../../components/cardapio";
-import { Food } from "../home";
 import { useGetDishesQuery } from "../../services/api";
 
 function Profile() {
@@ -24,17 +22,7 @@ function Profile() {
         </ContainerBanner>
         <Main>
           {food?.cardapio?.map((item: any) => {
-            return (
-              <Cardapio
-                key={item.id}
-                id={item.id}
-                image={item.foto}
-                text={item.descricao}
-                title={item.nome}
-                porcao={item.porcao}
-                preco={item.preco}
-              />
-            );
+            return <Cardapio key={item.id} food={item} />;
           })}
         </Main>
       </>
