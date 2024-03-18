@@ -11,7 +11,13 @@ import {
 import { PiTrashLight } from "react-icons/pi";
 
 import { RootReducer } from "../../store";
-import { close, remove } from "../../store/reducers/cart";
+import {
+  close,
+  remove,
+  openAdress,
+  openModal,
+} from "../../store/reducers/cart";
+import AdressModal from "../adress";
 
 export const formataPreco = (preco = 0) => {
   return new Intl.NumberFormat("pt-BR", {
@@ -23,6 +29,12 @@ export const formataPreco = (preco = 0) => {
 function CartMenu() {
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart);
   const dispatch = useDispatch();
+
+  const handleAdress = () => {
+    dispatch(openModal());
+    dispatch(openAdress());
+    dispatch(close());
+  };
 
   const closeModal = () => {
     dispatch(close());
@@ -68,12 +80,11 @@ function CartMenu() {
               <p>Valor total</p>
               <p>{formataPreco(getTotalPrice())}</p>
             </span>
-            <button onClick={() => console.log("teste")}>
-              Continuar com a entrega
-            </button>
+            <button onClick={handleAdress}>Continuar com a entrega</button>
           </Footer>
         </ModalContainer>
       </Container>
+      <AdressModal />
     </>
   );
 }
