@@ -19,6 +19,8 @@ import {
   openAdress,
 } from "../../store/reducers/cart";
 import { useFormik } from "formik";
+import * as yup from "yup";
+import { usePurchaseMutation } from "../../services/api";
 
 export const formataPreco = (preco = 0) => {
   return new Intl.NumberFormat("pt-BR", {
@@ -31,6 +33,10 @@ function AdressModal() {
   const { adressIsOpen, items, isOpenModal, paymentIsOpen } = useSelector(
     (state: RootReducer) => state.cart
   );
+
+  const [purchase, { isLoading, isSuccess, isError, data }] =
+    usePurchaseMutation();
+
   const dispatch = useDispatch();
 
   const getTotalPrice = () => {
@@ -42,6 +48,12 @@ function AdressModal() {
   const handleCloseModal = () => {
     dispatch(closeModal());
     dispatch(closePayment());
+  };
+
+  const FinishOperation = () => {
+    dispatch(closeModal());
+    dispatch(closePayment());
+    location.reload();
   };
 
   const toPayment = () => {
@@ -65,7 +77,7 @@ function AdressModal() {
       adress: "",
       city: "",
       cep: "",
-      number: "",
+      numberHome: "",
       complement: "",
       cardName: "",
       cardNumber: "",
@@ -73,10 +85,81 @@ function AdressModal() {
       expirationMonth: "",
       expirationYear: "",
     },
+    validationSchema: yup.object({
+      receiver: yup
+        .string()
+        .min(5, "O recebedor precisa ter pelo menos 5 caracteres")
+        .required("O campo é obrigatório"),
+      adress: yup
+        .string()
+        .min(5, "O endereço precisa ter pelo menos 5 caracteres")
+        .required("O campo é obrigatório"),
+      city: yup
+        .string()
+        .min(5, "O nome da cidade precisa ter pelo menos 5 caracteres")
+        .required("O campo é obrigatório"),
+      cep: yup
+        .string()
+        .min(5, "O cep precisa ter pelo menos 5 caracteres")
+        .required("O campo é obrigatório"),
+      numberHome: yup.number().required("O campo é obrigatório"),
+      complement: yup.string(),
+
+      // card validations
+      cardName: yup
+        .string()
+        .min(5, "O nome do cartão precisa ter pelo menos 5 caracteres")
+        .required("O campo é obrigatório"),
+      cardNumber: yup
+        .string()
+        .min(5, "O nome do cartão precisa ter pelo menos 5 caracteres")
+        .required("O campo é obrigatório"),
+      cvv: yup.number().required("O campo é obrigatório"),
+      expirationMonth: yup.number().required("O campo é obrigatório"),
+      expirationYear: yup.number().required("O campo é obrigatório"),
+    }),
     onSubmit: (values) => {
-      console.log(values);
+      purchase({
+        delivery: {
+          receiver: values.receiver,
+          address: {
+            description: values.adress,
+            city: values.city,
+            zipCode: values.cep,
+            number: Number(values.numberHome),
+            complement: values.complement,
+          },
+        },
+        payment: {
+          card: {
+            name: values.cardName,
+            number: values.cardNumber,
+            code: Number(values.cvv),
+            expires: {
+              month: Number(values.expirationMonth),
+              year: Number(values.expirationYear),
+            },
+          },
+        },
+        products: items.map((item) => ({
+          id: item.id,
+          price: item.preco as number,
+        })),
+      });
     },
   });
+
+  const getErrorMessage = (fieldName: string, message?: string) => {
+    const isTouched = fieldName in form.touched;
+    const isInvalid = fieldName in form.errors;
+
+    if (isTouched && isInvalid) return message;
+    return "";
+  };
+
+  if (isSuccess) {
+    dispatch(closePayment());
+  }
 
   return (
     <>
@@ -100,7 +183,11 @@ function AdressModal() {
                       name="receiver"
                       value={form.values.receiver}
                       onChange={form.handleChange}
+                      onBlur={form.handleBlur}
                     />
+                    <small>
+                      {getErrorMessage("receiver", form.errors.receiver)}
+                    </small>
                   </InputGroup>
                   <InputGroup>
                     <label htmlFor="adress">Endereço</label>
@@ -110,7 +197,11 @@ function AdressModal() {
                       name="adress"
                       value={form.values.adress}
                       onChange={form.handleChange}
+                      onBlur={form.handleBlur}
                     />
+                    <small>
+                      {getErrorMessage("adress", form.errors.adress)}
+                    </small>
                   </InputGroup>
                   <InputGroup>
                     <label htmlFor="city">Cidade</label>
@@ -120,7 +211,9 @@ function AdressModal() {
                       name="city"
                       value={form.values.city}
                       onChange={form.handleChange}
+                      onBlur={form.handleBlur}
                     />
+                    <small>{getErrorMessage("city", form.errors.city)}</small>
                   </InputGroup>
                   <NumberArea>
                     <InputGroup>
@@ -131,17 +224,23 @@ function AdressModal() {
                         name="cep"
                         value={form.values.cep}
                         onChange={form.handleChange}
+                        onBlur={form.handleBlur}
                       />
+                      <small>{getErrorMessage("cep", form.errors.cep)}</small>
                     </InputGroup>
                     <InputGroup>
-                      <label htmlFor="number">Número</label>
+                      <label htmlFor="numberHome">Número</label>
                       <input
-                        id="number"
-                        type="text"
-                        name="number"
-                        value={form.values.number}
+                        id="numberHome"
+                        type="number"
+                        name="numberHome"
+                        value={form.values.numberHome}
                         onChange={form.handleChange}
+                        onBlur={form.handleBlur}
                       />
+                      <small>
+                        {getErrorMessage("numberHome", form.errors.numberHome)}
+                      </small>
                     </InputGroup>
                   </NumberArea>
                   <InputGroup>
@@ -152,7 +251,11 @@ function AdressModal() {
                       name="complement"
                       value={form.values.complement}
                       onChange={form.handleChange}
+                      onBlur={form.handleBlur}
                     />
+                    <small>
+                      {getErrorMessage("complement", form.errors.complement)}
+                    </small>
                   </InputGroup>
                 </ContentArea>
                 <Footer>
@@ -175,7 +278,11 @@ function AdressModal() {
                       name="cardName"
                       value={form.values.cardName}
                       onChange={form.handleChange}
+                      onBlur={form.handleBlur}
                     />
+                    <small>
+                      {getErrorMessage("cardName", form.errors.cardName)}
+                    </small>
                   </InputGroup>
                   <NumberArea>
                     <InputGroup>
@@ -186,17 +293,23 @@ function AdressModal() {
                         name="cardNumber"
                         value={form.values.cardNumber}
                         onChange={form.handleChange}
+                        onBlur={form.handleBlur}
                       />
+                      <small>
+                        {getErrorMessage("cardNumber", form.errors.cardNumber)}
+                      </small>
                     </InputGroup>
                     <InputGroup>
                       <label htmlFor="cvv">CVV</label>
                       <input
                         id="cvv"
-                        type="text"
+                        type="number"
                         name="cvv"
                         value={form.values.cvv}
                         onChange={form.handleChange}
+                        onBlur={form.handleBlur}
                       />
+                      <small>{getErrorMessage("cvv", form.errors.cvv)}</small>
                     </InputGroup>
                   </NumberArea>
                   <NumberArea>
@@ -204,21 +317,35 @@ function AdressModal() {
                       <label htmlFor="expirationMonth">Mẽs de vencimento</label>
                       <input
                         id="expirationMonth"
-                        type="text"
+                        type="number"
                         name="expirationMonth"
                         value={form.values.expirationMonth}
                         onChange={form.handleChange}
+                        onBlur={form.handleBlur}
                       />
+                      <small>
+                        {getErrorMessage(
+                          "expirationMonth",
+                          form.errors.expirationMonth
+                        )}
+                      </small>
                     </InputGroup>
                     <InputGroup>
                       <label htmlFor="expirationYear">Ano de vencimento</label>
                       <input
                         id="expirationYear"
-                        type="text"
+                        type="number"
                         name="expirationYear"
                         value={form.values.expirationYear}
                         onChange={form.handleChange}
+                        onBlur={form.handleBlur}
                       />
+                      <small>
+                        {getErrorMessage(
+                          "expirationYear",
+                          form.errors.expirationYear
+                        )}
+                      </small>
                     </InputGroup>
                   </NumberArea>
                 </ContentArea>
@@ -227,6 +354,34 @@ function AdressModal() {
                   <button onClick={backToAdress}>
                     Voltar para a edição de endereço
                   </button>
+                </Footer>
+              </>
+            )}
+            {isSuccess && data && (
+              <>
+                <h3>Pedido realizado - {data.orderId}</h3>
+                <ContentArea>
+                  <p className="margin-top">
+                    Estamos felizes em informar que seu pedido já está em
+                    processo de preparação e, em breve, será entregue no
+                    endereço fornecido.
+                  </p>
+                  <p className="margin-top">
+                    Gostaríamos de ressaltar que nossos entregadores não estão
+                    autorizados a realizar cobranças extras.
+                  </p>
+                  <p className="margin-top">
+                    Lembre-se da importância de higienizar as mãos após o
+                    recebimento do pedido, garantindo assim sua segurança e
+                    bem-estar durante a refeição.
+                  </p>
+                  <p className="margin-top">
+                    Esperamos que desfrute de uma deliciosa e agradável
+                    experiência gastronômica. Bom apetite!
+                  </p>
+                </ContentArea>
+                <Footer>
+                  <button onClick={FinishOperation}>Concluir</button>
                 </Footer>
               </>
             )}

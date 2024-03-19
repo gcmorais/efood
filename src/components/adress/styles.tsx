@@ -56,6 +56,10 @@ export const ContentArea = styled.div`
   & {
     margin-top: 16px;
   }
+
+  p {
+    color: ${Colors.paleOrange};
+  }
 `;
 
 export const InputGroup = styled.div`
@@ -77,6 +81,10 @@ export const InputGroup = styled.div`
     width: 100%;
     font-weight: bold;
     font-size: 14px;
+  }
+
+  small {
+    color: ${Colors.paleOrange};
   }
 `;
 
