@@ -385,21 +385,21 @@ function AdressModal() {
               <>
                 <h3>Pedido realizado - {data.orderId}</h3>
                 <ContentArea>
-                  <p className="margin-top">
+                  <p className="success-message">
                     Estamos felizes em informar que seu pedido já está em
                     processo de preparação e, em breve, será entregue no
                     endereço fornecido.
                   </p>
-                  <p className="margin-top">
+                  <p className="success-message">
                     Gostaríamos de ressaltar que nossos entregadores não estão
                     autorizados a realizar cobranças extras.
                   </p>
-                  <p className="margin-top">
+                  <p className="success-message">
                     Lembre-se da importância de higienizar as mãos após o
                     recebimento do pedido, garantindo assim sua segurança e
                     bem-estar durante a refeição.
                   </p>
-                  <p className="margin-top">
+                  <p className="success-message">
                     Esperamos que desfrute de uma deliciosa e agradável
                     experiência gastronômica. Bom apetite!
                   </p>

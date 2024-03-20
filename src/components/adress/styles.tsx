@@ -60,6 +60,10 @@ export const ContentArea = styled.div`
   p {
     color: ${Colors.paleOrange};
   }
+
+  .success-message {
+    font-size: 14px;
+  }
 `;
 
 export const InputGroup = styled.div`
