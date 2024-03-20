@@ -111,6 +111,12 @@ export const Footer = styled.div`
     }
   }
 
+  .disabled {
+    cursor: not-allowed;
+    background-color: rgb(229, 229, 229) !important;
+    pointer-events: none;
+  }
+
   button {
     width: 218px;
     height: 24px;

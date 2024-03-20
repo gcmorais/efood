@@ -9,18 +9,23 @@ import {
   NumberArea,
 } from "./styles";
 
+import InputMask from "react-input-mask";
+
 import { RootReducer } from "../../store";
 import {
   closeAdress,
   open,
   closeModal,
+  disabled,
   closePayment,
   openPayment,
   openAdress,
+  worked,
 } from "../../store/reducers/cart";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { usePurchaseMutation } from "../../services/api";
+import { useState } from "react";
 
 export const formataPreco = (preco = 0) => {
   return new Intl.NumberFormat("pt-BR", {
@@ -30,9 +35,8 @@ export const formataPreco = (preco = 0) => {
 };
 
 function AdressModal() {
-  const { adressIsOpen, items, isOpenModal, paymentIsOpen } = useSelector(
-    (state: RootReducer) => state.cart
-  );
+  const { adressIsOpen, items, isOpenModal, paymentIsOpen, desableButton } =
+    useSelector((state: RootReducer) => state.cart);
 
   const [purchase, { isLoading, isSuccess, isError, data }] =
     usePurchaseMutation();
@@ -161,6 +165,18 @@ function AdressModal() {
     dispatch(closePayment());
   }
 
+  if (
+    form.values.receiver.length === 0 ||
+    form.values.adress.length === 0 ||
+    form.values.city.length === 0 ||
+    form.values.cep.length === 0 ||
+    form.values.numberHome.length === 0
+  ) {
+    dispatch(disabled());
+  } else {
+    dispatch(worked());
+  }
+
   return (
     <>
       <Container className={isOpenModal ? "is-open" : ""}>
@@ -218,10 +234,11 @@ function AdressModal() {
                   <NumberArea>
                     <InputGroup>
                       <label htmlFor="cep">CEP</label>
-                      <input
+                      <InputMask
                         id="cep"
                         type="text"
                         name="cep"
+                        mask="99999-999"
                         value={form.values.cep}
                         onChange={form.handleChange}
                         onBlur={form.handleBlur}
@@ -230,13 +247,14 @@ function AdressModal() {
                     </InputGroup>
                     <InputGroup>
                       <label htmlFor="numberHome">Número</label>
-                      <input
+                      <InputMask
                         id="numberHome"
-                        type="number"
                         name="numberHome"
                         value={form.values.numberHome}
                         onChange={form.handleChange}
                         onBlur={form.handleBlur}
+                        max="100"
+                        mask="999"
                       />
                       <small>
                         {getErrorMessage("numberHome", form.errors.numberHome)}
@@ -259,7 +277,12 @@ function AdressModal() {
                   </InputGroup>
                 </ContentArea>
                 <Footer>
-                  <button onClick={toPayment}>Continuar com o pagamento</button>
+                  <button
+                    onClick={toPayment}
+                    className={desableButton ? "disabled" : ""}
+                  >
+                    Continuar com o pagamento
+                  </button>
                   <button onClick={backToCart}>Voltar para o carrinho</button>
                 </Footer>
               </>
@@ -287,13 +310,14 @@ function AdressModal() {
                   <NumberArea>
                     <InputGroup>
                       <label htmlFor="cardNumber">Número do cartão</label>
-                      <input
+                      <InputMask
                         id="cardNumber"
                         type="text"
                         name="cardNumber"
                         value={form.values.cardNumber}
                         onChange={form.handleChange}
                         onBlur={form.handleBlur}
+                        mask="9999-9999-9999-9999"
                       />
                       <small>
                         {getErrorMessage("cardNumber", form.errors.cardNumber)}
@@ -301,13 +325,13 @@ function AdressModal() {
                     </InputGroup>
                     <InputGroup>
                       <label htmlFor="cvv">CVV</label>
-                      <input
+                      <InputMask
                         id="cvv"
-                        type="number"
                         name="cvv"
                         value={form.values.cvv}
                         onChange={form.handleChange}
                         onBlur={form.handleBlur}
+                        mask="999"
                       />
                       <small>{getErrorMessage("cvv", form.errors.cvv)}</small>
                     </InputGroup>
@@ -315,13 +339,13 @@ function AdressModal() {
                   <NumberArea>
                     <InputGroup>
                       <label htmlFor="expirationMonth">Mẽs de vencimento</label>
-                      <input
+                      <InputMask
                         id="expirationMonth"
-                        type="number"
                         name="expirationMonth"
                         value={form.values.expirationMonth}
                         onChange={form.handleChange}
                         onBlur={form.handleBlur}
+                        mask="99"
                       />
                       <small>
                         {getErrorMessage(
@@ -332,13 +356,13 @@ function AdressModal() {
                     </InputGroup>
                     <InputGroup>
                       <label htmlFor="expirationYear">Ano de vencimento</label>
-                      <input
+                      <InputMask
                         id="expirationYear"
-                        type="number"
                         name="expirationYear"
                         value={form.values.expirationYear}
                         onChange={form.handleChange}
                         onBlur={form.handleBlur}
+                        mask="9999"
                       />
                       <small>
                         {getErrorMessage(

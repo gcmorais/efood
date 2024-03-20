@@ -7,6 +7,7 @@ type CartState = {
   adressIsOpen: boolean;
   isOpenModal: boolean;
   paymentIsOpen: boolean;
+  desableButton: boolean;
 };
 
 const initialState: CartState = {
@@ -15,6 +16,7 @@ const initialState: CartState = {
   adressIsOpen: false,
   isOpenModal: false,
   paymentIsOpen: false,
+  desableButton: false,
 };
 
 const cartSlice = createSlice({
@@ -51,6 +53,12 @@ const cartSlice = createSlice({
     closePayment: (state) => {
       state.paymentIsOpen = false;
     },
+    disabled: (state) => {
+      state.desableButton = true;
+    },
+    worked: (state) => {
+      state.desableButton = false;
+    },
   },
 });
 
@@ -65,5 +73,7 @@ export const {
   closeModal,
   openPayment,
   closePayment,
+  disabled,
+  worked,
 } = cartSlice.actions;
 export default cartSlice.reducer;
